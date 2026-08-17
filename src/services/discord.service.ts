@@ -1,15 +1,20 @@
-import { config } from "dotenv";
-
 interface DiscordMessage {
   content: string;
 }
 
-
 export async function sendDiscordMessage(
   message: DiscordMessage,
 ): Promise<void> {
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+
+  if (!webhookUrl) {
+    throw new Error(
+      'DISCORD_WEBHOOK_URL is not configured',
+    );
+  }
+
   const response = await fetch(
-    config().parsed?.DISCORD_WEBHOOK_URL as string,
+    webhookUrl,
     {
       method: 'POST',
       headers: {
