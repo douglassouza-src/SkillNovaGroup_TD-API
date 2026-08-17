@@ -8,6 +8,7 @@ import notificationRoutes from './routes/notification.routes.js';
 import teamRoutes from './routes/team.routes.js';
 import userRoutes from './routes/user.routes.js';
 import corsMiddleware from './config/cors.js';
+import dashboardRoutes from './routes/dashboard.routes.js';
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use('/trainings', trainingRoutes);
 app.use('/notifications', notificationRoutes);
 app.use('/teams', teamRoutes);
 app.use('/users', userRoutes);
+app.use('/dashboard',dashboardRoutes);
 /**
  * Global error handler
  */
