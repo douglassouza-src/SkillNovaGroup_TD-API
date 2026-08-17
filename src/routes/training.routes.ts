@@ -64,21 +64,6 @@ requireRoles('TECHNICIAN'),
 )
 
 router.patch(
-  '/participants/:participantId/attendance',
-  authMiddleware,
-  requireRoles(
-    'MASTER',
-    'MANAGER',
-    'COORDINATOR',
-  ),
-  (req, res, next) => {
-    trainingController
-      .recordAttendance(req, res)
-      .catch(next);
-  },
-);
-
-router.patch(
   '/participants/:participantId/evaluation',
   authMiddleware,
   requireRoles(
@@ -93,17 +78,17 @@ router.patch(
   },
 );
 
-router.get(
-  '/me/history',
-  authMiddleware,
-  requireRoles('TECHNICIAN'),
-  (req, res, next) => {
-    trainingController
-      .listTechnicianTrainings(req, res)
-      // .listTechnicianTrainingHistory(req, res)
-      .catch(next);
-  },
-);
+// router.get(
+//   '/me/history',
+//   authMiddleware,
+//   requireRoles('TECHNICIAN'),
+//   (req, res, next) => {
+//     trainingController
+//       .listTechnicianTrainings(req, res)
+//       // .listTechnicianTrainingHistory(req, res)
+//       .catch(next);
+//   },
+// );
 
 router.patch(
   '/sessions/:sessionId/participants/:participantId/attendance',
@@ -132,6 +117,21 @@ router.get(
   (req, res, next) => {
     trainingController
       .listTrainingSessions(req, res)
+      .catch(next);
+  },
+);
+
+router.get(
+  '/sessions/:sessionId/participants',
+  authMiddleware,
+  requireRoles(
+    'MASTER',
+    'MANAGER',
+    'COORDINATOR',
+  ),
+  (req, res, next) => {
+    trainingController
+      .listSessionParticipants(req, res)
       .catch(next);
   },
 );

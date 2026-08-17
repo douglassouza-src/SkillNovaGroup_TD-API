@@ -5,9 +5,13 @@ import errorHandler from './middlewares/error-handler.js';
 import authRoutes from './routes/auth.routes.js';
 import trainingRoutes from './routes/training.routes.js';
 import notificationRoutes from './routes/notification.routes.js';
+import teamRoutes from './routes/team.routes.js';
+import userRoutes from './routes/user.routes.js';
+import corsMiddleware from './config/cors.js';
 
 const app = express();
 
+app.use(corsMiddleware);
 app.use(express.json());
 
 /**
@@ -39,6 +43,8 @@ app.get('/health', async (_req, res) => {
 app.use('/auth', authRoutes);
 app.use('/trainings', trainingRoutes);
 app.use('/notifications', notificationRoutes);
+app.use('/teams', teamRoutes);
+app.use('/users', userRoutes);
 /**
  * Global error handler
  */

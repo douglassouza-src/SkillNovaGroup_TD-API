@@ -208,6 +208,20 @@ async recordEvaluation(
     participant,
   });
 }
+
+async listSessionParticipants(
+  req: Request,
+  res: Response,
+) {
+  const participants =
+    await trainingService.listSessionParticipants(
+      req.params.sessionId as any,
+    );
+
+  return res.status(200).json({
+    participants,
+  });
+}
 }
 
 export default new TrainingController();

@@ -122,5 +122,19 @@ export interface TechnicianTrainingTodoDTO {
   
 }
 
+export interface SessionParticipantListItemDTO {
+  id: string;
+  trainingSessionId: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  teamId: string | null;
+  teamName: string | null;
+  participationStatus: 'PARTICIPATED' | 'ABSENT';
+  evaluation: 'POOR' | 'GOOD' | 'VERY_GOOD' | null;
+  attendanceRecordedAt: Date | null;
+  evaluatedAt: Date | null;
+  createdAt: Date;
+}
 
 

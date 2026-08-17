@@ -743,6 +743,53 @@ async cancelTrainingSession(
   }));
 }
 
+async listSessionParticipants(sessionId: string) {
+  const session = await database('training_sessions')
+    .where('id', sessionId)
+    .first();
+
+  if (!session) {
+    throw new Error('Training session not found');
+  }
+
+  const participants = await database(
+    'training_participants as tp',
+  )
+    .join('users as u', 'u.id', 'tp.user_id')
+    .leftJoin('teams as tm', 'tm.id', 'u.team_id')
+    .where('tp.training_session_id', sessionId)
+    .select(
+      'tp.id',
+      'tp.training_session_id',
+      'tp.user_id',
+      'tp.participation_status',
+      'tp.evaluation',
+      'tp.attendance_recorded_at',
+      'tp.evaluated_at',
+      'tp.created_at',
+      'u.name as user_name',
+      'u.email as user_email',
+      'tm.id as team_id',
+      'tm.name as team_name',
+    )
+    .orderBy('u.name', 'asc');
+
+  return participants.map((participant) => ({
+    id: participant.id,
+    trainingSessionId: participant.training_session_id,
+    userId: participant.user_id,
+    userName: participant.user_name,
+    userEmail: participant.user_email,
+    teamId: participant.team_id,
+    teamName: participant.team_name,
+    participationStatus: participant.participation_status,
+    evaluation: participant.evaluation,
+    attendanceRecordedAt: participant.attendance_recorded_at,
+    evaluatedAt: participant.evaluated_at,
+    createdAt: participant.created_at,
+  }));
+}
+
 }
 
 export default new TrainingService();
